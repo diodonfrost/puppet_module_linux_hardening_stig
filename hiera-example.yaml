@@ -1,0 +1,88 @@
+# SELinux config.
+linux_hardening_stig::selinux::selinux_mode: 'enforcing'
+linux_hardening_stig::selinux::selinux_boolean_execstack: false
+linux_hardening_stig::selinux::selinux_boolean_execheap: false
+linux_hardening_stig::selinux::selinux_boolean_virt_use_usb: false
+linux_hardening_stig::selinux::selinux_boolean_deny_ptrace: true
+
+# Set audit allow rules.
+linux_hardening_stig::audit::audit_access: true
+linux_hardening_stig::audit::audit_actions: true
+linux_hardening_stig::audit::audit_networkconfig: true
+linux_hardening_stig::audit::audit_usergroup: true
+linux_hardening_stig::audit::audit_time: true
+linux_hardening_stig::audit::audit_delete: true
+linux_hardening_stig::audit::audit_export: true
+linux_hardening_stig::audit::audit_immutable: true
+linux_hardening_stig::audit::audit_logins: true
+linux_hardening_stig::audit::audit_mac_policy: true
+linux_hardening_stig::audit::audit_modules: true
+linux_hardening_stig::audit::audit_perm_mod: true
+linux_hardening_stig::audit::audit_privileged: true
+linux_hardening_stig::audit::audit_session: true
+linux_hardening_stig::audit::audit_time_change: true
+linux_hardening_stig::audit::audit_admin_action_low_disk: true
+linux_hardening_stig::audit::audit_action_low_disk: true
+linux_hardening_stig::audit::audit_flush_priority: true
+linux_hardening_stig::audit::audit_syslog: true
+
+# Set filesystem hardening.
+linux_hardening_stig::filesystem_logfiles_perm: '0600'
+linux_hardening_stig::filesystem_hidden_process: true
+
+# Linux sysctl kernel hardening.
+linux_hardening_stig::kernel::kernel_weak_ipv4_net_sysctl: '0'
+linux_hardening_stig::kernel::kernel_adv_ipv4_net_sysctl: '1'
+linux_hardening_stig::kernel::kernel_ipv6_disabled: '1'
+linux_hardening_stig::kernel::kernel_weak_ipv6_net_sysctl: '0'
+linux_hardening_stig::kernel::kernel_adv_ipv6_net_sysctl: '1'
+linux_hardening_stig::kernel::kernel_sysrq: '0'
+linux_hardening_stig::kernel::kernel_fs_suid_dumpable: '0'
+linux_hardening_stig::kernel::kernel_kptr_restrict: '1'
+linux_hardening_stig::kernel::kernel_dmesg_restrict: '1'
+linux_hardening_stig::kernel::kernel_perf_event_max_rate: '1'
+linux_hardening_stig::kernel::kernel_perf_cpu_time_max: '1'
+linux_hardening_stig::kernel::kernel_pid_max: '65536'
+linux_hardening_stig::kernel::kernel_perf_event_paranoid: '2'
+linux_hardening_stig::kernel::kernel_randomize_va_space: '2'
+linux_hardening_stig::kernel::kernel_vm_mmap_min_addr: '65536'
+
+# Package for hardening system.
+linux_hardening_stig::services::ntp_servers: ['0.rhel.pool.ntp.org', '1.rhel.pool.ntp.org', '2.rhel.pool.ntp.org', '3.rhel.pool.ntp.org']
+
+# Hardening pam.
+linux_hardening_stig::pam::pam_pwquality_settings:
+  maxrepeat: '2'
+  dcredit: '-1'
+  minlen: '15'
+  ucredit: '-1'
+  ocredit: '-1'
+  lcredit: '-1'
+  difok: '5'
+  maxclassrepeat: '2'
+  minclass': '4'
+linux_hardening_stig::pam::pam_login_defs:
+  PASS_MAX_DAYS: '60'
+  PASS_MIN_DAYS: '1'
+  ENCRYPT_METHOD: 'SHA512'
+
+# Hardening sshd.
+linux_hardening_stig::services::ssh:ssh_banner: true
+linux_hardening_stig::services::ssh::ssh_settings:
+  Banner: '/etc/issue'
+  Ciphers: 'aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc,aes192-cbc,aes256-cbc'
+  ClientAliveCountMax: '0'
+  ClientAliveInterval: '900'
+  Compression: 'no'
+  GSSAPIAuthentication: 'no'
+  KerberosAuthentication: 'no'
+  MACs: 'hmac-sha2-512,hmac-sha2-256,hmac-sha1'
+  PermitEmptyPasswords: 'no'
+  PermitUserEnvironment: 'no'
+  PermitRootLogin: 'no'
+  Protocol: '2'
+  StrictModes: 'yes'
+  UsePrivilegeSeparation: 'yes'
+  X11Forwarding: 'yes
+
+
